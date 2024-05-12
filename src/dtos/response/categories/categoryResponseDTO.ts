@@ -1,7 +1,7 @@
 import { IResponse } from "../iResponse";
 
-export interface LoginResponseDTO extends IResponse {
+export interface CategoryResponseDTO extends IResponse {
   name: string;
-  email: string;
+  color: string;
   id: string;
 }

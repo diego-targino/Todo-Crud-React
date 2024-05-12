@@ -1,4 +1,5 @@
 export interface CreateTodoRequestDTO {
-	userId: string,
-	description: string,
+  userId: string;
+  description: string;
+  categoryId?: string;
 }

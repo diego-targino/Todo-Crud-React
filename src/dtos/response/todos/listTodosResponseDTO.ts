@@ -1,5 +1,6 @@
-import { Todo } from "../../data/models/todo";
+import { IResponse } from "../iResponse";
+import { TodoResponseDTO } from "./todoResponseDTO";
 
-export interface ListTodosResponseDTO {
-	todos: Todo[]
+export interface ListTodosResponseDTO extends IResponse {
+  todos: TodoResponseDTO[];
 }
