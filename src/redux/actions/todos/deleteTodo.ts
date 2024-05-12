@@ -5,7 +5,7 @@ export const deleteTodoAction = createAsyncThunk(
   "todos/delete",
   async (id: string, thunkAPI): Promise<void> => {
     try {
-      await new TodoService().DeleteTodo(id);
+      await new TodoService().deleteTodo(id);
     } catch (error: any) {
       thunkAPI.rejectWithValue(error.message);
     }

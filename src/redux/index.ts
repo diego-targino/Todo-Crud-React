@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todoReducer from "./reducers/todoReducer";
-import userReducer from "./reducers/userReducer";
+import { todoSlice } from "./reducers/todoReducer";
+import { userSlice } from "./reducers/userReducer";
 
 export const storeState = configureStore({
-	reducer: {
-		user: userReducer,
-		todo: todoReducer
-	}
-})
+  reducer: {
+    user: userSlice.reducer,
+    todo: todoSlice.reducer,
+  },
+});
 
 export type RootState = ReturnType<typeof storeState.getState>;
