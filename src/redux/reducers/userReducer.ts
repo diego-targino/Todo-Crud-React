@@ -41,7 +41,8 @@ export const userSlice = createSlice({
       .addCase(loginAction.rejected, (state, action) => {
         state.loading = false;
         state.successLogin = false;
-        state.error = action.error.message || "houve um erro ao logar usuário";
+        state.error =
+          (action.payload as string) || "houve um erro ao logar usuário";
       });
 
     builder.addDefaultCase((state, action) => {});

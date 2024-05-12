@@ -6,8 +6,8 @@ import { AxiosClient } from "../utils/axiosClient";
 
 export class UserService {
   async login(loginRequestDTO: LoginRequestDTO): Promise<LoginResponseDTO> {
-    const response = await AxiosClient.put<LoginResponseDTO>(
-      "/users",
+    const response = await AxiosClient.post<LoginResponseDTO>(
+      "/users/login",
       loginRequestDTO
     );
 

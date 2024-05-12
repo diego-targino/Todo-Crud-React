@@ -8,12 +8,12 @@ export const loginAction = createAsyncThunk(
   async (
     loginRequestDTO: LoginRequestDTO,
     thunkAPI
-  ): Promise<LoginResponseDTO | undefined> => {
+  ): Promise<LoginResponseDTO | any | undefined> => {
     try {
       let loginResponseDTO = await new UserService().login(loginRequestDTO);
       return loginResponseDTO;
     } catch (error: any) {
-      thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

@@ -28,7 +28,7 @@ export const todoSlice = createSlice({
       .addCase(listTodosAction.rejected, (state, action) => {
         state.loading = false;
         state.error =
-          action.error.message || "houve um erro ao listar as tarefas";
+          (action.payload as string) || "houve um erro ao listar as tarefas";
       });
 
     builder
@@ -43,7 +43,8 @@ export const todoSlice = createSlice({
       .addCase(createTodoAction.rejected, (state, action) => {
         state.loading = false;
         state.successCreate = false;
-        state.error = action.error.message || "houve um erro ao criar tarefa";
+        state.error =
+          (action.payload as string) || "houve um erro ao criar tarefa";
       });
 
     builder
@@ -58,7 +59,8 @@ export const todoSlice = createSlice({
       .addCase(editTodoAction.rejected, (state, action) => {
         state.loading = false;
         state.successEdit = false;
-        state.error = action.error.message || "houve um erro ao editar tarefa";
+        state.error =
+          (action.payload as string) || "houve um erro ao editar tarefa";
       });
 
     builder
@@ -73,7 +75,8 @@ export const todoSlice = createSlice({
       .addCase(deleteTodoAction.rejected, (state, action) => {
         state.loading = false;
         state.successDelete = false;
-        state.error = action.error.message || "houve um erro ao deletar tarefa";
+        state.error =
+          (action.payload as string) || "houve um erro ao deletar tarefa";
       });
 
     builder.addDefaultCase((state, action) => {});
