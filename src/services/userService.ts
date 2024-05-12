@@ -1,40 +1,29 @@
-import { User } from "../data/models/user";
-import { UserRepository } from "../data/repositories/userRepository";
 import { LoginRequestDTO } from "../dtos/request/users/loginRequestDTO";
 import { RegisterUserRequestDTO } from "../dtos/request/users/registerUserRequestDTO";
+import { IResponse } from "../dtos/response/iResponse";
 import { LoginResponseDTO } from "../dtos/response/users/loginResponseDTO";
-import { UserMapper } from "../mappers/userMapper";
-import { EncriptStringSha512 } from "../utils/criptografer";
+import { AxiosClient } from "../utils/axiosClient";
 
 export class UserService {
-  userRepository = new UserRepository();
-
-  async Login(loginRequestDTO: LoginRequestDTO): Promise<LoginResponseDTO> {
-    let encriptedPassword = EncriptStringSha512(loginRequestDTO.password);
-    let user = await this.userRepository.GetUserByEmail(loginRequestDTO.login);
-
-    if (user == undefined || user.password !== encriptedPassword)
-      throw "O login ou senha inválida";
-
-    return {
-      id: user._id?.toString()!,
-      email: user.email,
-      name: user.name,
-    };
-  }
-
-  async CreateUser(
-    registerUserRequestDTO: RegisterUserRequestDTO
-  ): Promise<void> {
-    let encriptedPassword = EncriptStringSha512(
-      registerUserRequestDTO.password
+  async login(loginRequestDTO: LoginRequestDTO): Promise<LoginResponseDTO> {
+    const response = await AxiosClient.put<LoginResponseDTO>(
+      "/users",
+      loginRequestDTO
     );
 
-    let user: User = UserMapper.mapUser({
-      ...registerUserRequestDTO,
-      password: encriptedPassword,
-    });
+    if (response.status !== 200) throw new Error(response.data.message);
 
-    await this.userRepository.AddUser(user);
+    return response.data;
+  }
+
+  async createUser(
+    registerUserRequestDTO: RegisterUserRequestDTO
+  ): Promise<void> {
+    const response = await AxiosClient.post<IResponse>(
+      "/users",
+      registerUserRequestDTO
+    );
+
+    if (response.status !== 201) throw new Error(response.data.message);
   }
 }

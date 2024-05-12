@@ -1,37 +1,45 @@
-import { Todo } from "../data/models/todo";
-import { TodoRepository } from "../data/repositories/todoRepository";
+import axios from "axios";
 import { CreateTodoRequestDTO } from "../dtos/request/todos/createTodoRequestDTO";
 import { EditTodoRequestDTO } from "../dtos/request/todos/editTodoRequestDTO";
 import { ListTodosResponseDTO } from "../dtos/response/todos/listTodosResponseDTO";
-
-import { TodoMaper } from "../mappers/todoMapper";
+import { IResponse } from "../dtos/response/iResponse";
+import { AxiosClient } from "../utils/axiosClient";
+import { ListTodosrequestDTO } from "../dtos/response/todos/listTodosRequestDTO";
 
 export class TodoService {
-  todoRepository: TodoRepository = new TodoRepository();
+  async listTodos(
+    listTodosrequestDTO: ListTodosrequestDTO
+  ): Promise<ListTodosResponseDTO> {
+    const response = await AxiosClient.get<ListTodosResponseDTO>("/todos", {
+      headers: { ...listTodosrequestDTO },
+    });
 
-  async ListTodos(userId: string): Promise<ListTodosResponseDTO> {
-    let todos: Todo[] = await this.todoRepository.GetTodoList(userId);
-    return { todos };
+    if (response.status !== 200) throw new Error(response.data.message);
+
+    return response.data;
   }
 
-  async AddTodo(createTodoRequestDTO: CreateTodoRequestDTO): Promise<void> {
-    let todo: Todo = TodoMaper.mapTodo(createTodoRequestDTO);
+  async createTodo(createTodoRequestDTO: CreateTodoRequestDTO): Promise<void> {
+    const response = await AxiosClient.post<IResponse>(
+      "/todos",
+      createTodoRequestDTO
+    );
 
-    await this.todoRepository.AddTodo(todo);
+    if (response.status !== 201) throw new Error(response.data.message);
   }
 
-  async UpdateTodo(editTodoRequestDTO: EditTodoRequestDTO): Promise<void> {
-    let todo = await this.todoRepository.GetTodoById(editTodoRequestDTO.id);
+  async editTodo(editTodoRequestDTO: EditTodoRequestDTO): Promise<void> {
+    const response = await AxiosClient.post<IResponse>(
+      `/todos/${editTodoRequestDTO.id}`,
+      editTodoRequestDTO
+    );
 
-    if (todo == undefined) throw "Tarefa não encontrada";
-
-    todo.description = editTodoRequestDTO.description;
-    todo.completed = editTodoRequestDTO.completed;
-
-    await this.todoRepository.UpdateTodo(todo);
+    if (response.status !== 200) throw new Error(response.data.message);
   }
 
-  async DeleteTodo(id: string): Promise<void> {
-    await this.todoRepository.DeleteTodo(id);
+  async deleteTodo(id: string): Promise<void> {
+    const response = await AxiosClient.delete<IResponse>(`/todos/${id}`);
+
+    if (response.status !== 200) throw new Error(response.data.message);
   }
 }
