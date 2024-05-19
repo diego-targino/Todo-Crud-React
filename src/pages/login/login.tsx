@@ -1,9 +1,10 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { emailRegex } from "../../utils/appRegex";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux";
 import { loginAction } from "../../redux/actions/users";
+import { useNavigate } from "react-router-dom";
 
 type LoginForm = {
   login: string;
@@ -12,6 +13,8 @@ type LoginForm = {
 
 export function Login(): ReactElement {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const userState = useSelector((state: RootState) => state.user);
 
   const {
@@ -19,6 +22,10 @@ export function Login(): ReactElement {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
+
+  useEffect(() => {
+    if (userState.successLogin) navigate('/home');
+  }, [userState]);
 
   const onSubmit: SubmitHandler<LoginForm> = (data: LoginForm) => {
     const result = dispatch(loginAction({ ...data }));
