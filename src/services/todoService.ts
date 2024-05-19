@@ -29,7 +29,7 @@ export class TodoService {
   }
 
   async editTodo(editTodoRequestDTO: EditTodoRequestDTO): Promise<void> {
-    const response = await AxiosClient.post<IResponse>(
+    const response = await AxiosClient.put<IResponse>(
       `/todos/${editTodoRequestDTO.id}`,
       editTodoRequestDTO
     );

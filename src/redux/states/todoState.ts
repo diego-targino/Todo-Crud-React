@@ -1,10 +1,10 @@
-import { Todo } from "../../data/models/todo";
+import { TodoResponseDTO } from "../../dtos/response/todos/todoResponseDTO";
 
 export interface TodoState {
-	todos: Todo[];
-	loading: boolean;
-	error?: string;
-	successEdit?: boolean;
-	successDelete?: boolean;
-	successCreate?: boolean;
+  todos: TodoResponseDTO[];
+  loading: boolean;
+  error?: string;
+  successEdit?: boolean;
+  successDelete?: boolean;
+  successCreate?: boolean;
 }

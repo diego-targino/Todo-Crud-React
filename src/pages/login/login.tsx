@@ -1,10 +1,12 @@
+import "./login.style.css";
 import { ReactElement, useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { emailRegex } from "../../utils/appRegex";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../redux";
 import { loginAction } from "../../redux/actions/users";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FormField } from "../../components/formField/formField";
 
 type LoginForm = {
   login: string;
@@ -24,29 +26,51 @@ export function Login(): ReactElement {
   } = useForm<LoginForm>();
 
   useEffect(() => {
-    if (userState.successLogin) navigate('/home');
+    if (userState.successLogin) navigate("/app/home");
   }, [userState]);
 
   const onSubmit: SubmitHandler<LoginForm> = (data: LoginForm) => {
     const result = dispatch(loginAction({ ...data }));
-
-    console.log(result);
   };
   return (
-    <div>
-      <p>Pagina de Login</p>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register("login", {
-            required: true,
-            pattern: emailRegex,
-          })}
-        />
-        {errors.login ? <p>Login inválido</p> : null}
-        <input {...register("password", { required: true })} />
-        {errors.password ? <p>A senha é obrigatória</p> : null}
-        <input type="submit" />
-      </form>
+    <div className="container">
+      <div className="form-container">
+        <p className="title">Faça o Login</p>
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+          <FormField
+            required
+            label="E-mail:"
+            fieldName="login"
+            type="text"
+            register={register}
+            error={!!errors.login}
+            errorMessage="E-mail inválido"
+            patther={emailRegex}
+          />
+          <FormField
+            required
+            label="Senha:"
+            fieldName="password"
+            type="password"
+            register={register}
+            error={!!errors.password}
+            errorMessage="É obrigatório informar uma senha"
+          />
+          <div className="subimit-box">
+            <input className="subimit-button" type="submit" />
+          </div>
+        </form>
+        <Link
+          style={{
+            color: "#40c4ff",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          to="/register"
+        >
+          Faça seu cadastro
+        </Link>
+      </div>
     </div>
   );
 }

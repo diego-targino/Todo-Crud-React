@@ -43,7 +43,7 @@ export class CategoryService {
 
   static async deleteCategory(categoryId: string): Promise<void> {
     const response = await AxiosClient.delete<IResponse>(
-      `/categorires/${categoryId}`
+      `/categories/${categoryId}`
     );
 
     if (response.status !== 200) throw new Error(response.data.message);

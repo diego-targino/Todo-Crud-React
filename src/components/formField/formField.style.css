@@ -1,0 +1,28 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-bottom: 1.2em;
+}
+
+.form-group input {
+  margin: 0;
+  padding: 0;
+  height: 2em;
+  border-radius: 5px;
+  border: 1px solid #b3b3b3;
+  background-color: transparent;
+  color: #b3b3b3;
+  padding-left: 0.5em;
+}
+.form-group input:focus {
+  border: none;
+}
+
+.field-error {
+  color: red;
+  font-size: 12px;
+  margin: 0;
+  padding: 0.3em 0;
+}

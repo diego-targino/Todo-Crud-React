@@ -44,7 +44,7 @@ export class AxiosClient {
     config?: AxiosRequestConfig<any>
   ): Promise<AxiosResponse<TResponse>> {
     try {
-      return await axios.delete<TResponse>(uri, config);
+      return await axios.delete<TResponse>(this.baseUrl + uri, config);
     } catch (error: any) {
       return mapErrorResponse(error);
     }
